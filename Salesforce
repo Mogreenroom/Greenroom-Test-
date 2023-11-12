@@ -1,0 +1,9 @@
+/your-project
+    /src
+        /classes
+        /objects
+        /pages
+        /staticresources
+        /...
+    package.xml
+    destructiveChanges.xml

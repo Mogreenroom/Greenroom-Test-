@@ -1,0 +1,33 @@
+
+Absolutely, I can provide you with an example of how you might create a basic recruitment CRM in Salesforce using Apex (Salesforce's programming language) and custom objects. This example assumes you want to track Candidates and Jobs.
+
+Creating Custom Objects:
+Start by creating two custom objects in Salesforce: Candidate and Job.
+
+Go to Setup → Object Manager → Create → Custom Object.
+Create fields for each object (e.g., Candidate Name, Email, Phone, Job Title, Job Description, etc.).
+Apex Classes:
+Now, you'll need Apex classes to handle the business logic. For this example, we'll create a simple class for creating a Candidate and Job.
+
+apex
+Copy code
+// CandidateController.cls
+public class CandidateController {
+    public static void createCandidate(String name, String email, String phone) {
+        Candidate__c newCandidate = new Candidate__c();
+        newCandidate.Name = name;
+        newCandidate.Email__c = email;
+        newCandidate.Phone__c = phone;
+        insert newCandidate;
+    }
+}
+
+// JobController.cls
+public class JobController {
+    public static void createJob(String title, String description) {
+        Job__c newJob = new Job__c();
+        newJob.Title__c = title;
+        newJob.Description__c = description;
+        insert newJob;
+    }
+}

@@ -1,0 +1,44 @@
+// Create a theme and assign a color to it
+public class ChangeUIColor {
+
+    // Method to set the custom theme color
+    public static void setCustomThemeColor() {
+        // Define your custom color
+        String customColor = '#00FF00'; // Green color
+        
+        // Create a new theme object
+        List<UIX.Theme> themes = new List<UIX.Theme>();
+        themes.add(new UIX.Theme(
+            Label = 'Custom Green Theme', // Theme label
+            MasterLabel = 'Custom Green Theme', // Theme name
+            S1PrimaryColor = customColor, // Primary color
+            S1TextColor = '#FFFFFF', // Text color (white in this case)
+            S1ButtonColor = customColor // Button color
+        ));
+        
+        // Insert the theme
+        Database.SaveResult[] results = Database.insert(themes, false);
+        
+        // Check if the theme was inserted successfully
+        for (Database.SaveResult sr : results) {
+            if (sr.isSuccess()) {
+                System.debug('Custom theme created successfully.');
+            } else {
+                for(Database.Error err : sr.getErrors()) {
+                    System.debug('Error creating custom theme: ' + err.getStatusCode() + ': ' + err.getMessage());
+                }
+            }
+        }
+        
+        // Apply the newly created theme to the org
+        List<UserInterfaceDefinition> uiDefs = [SELECT Id FROM UserInterfaceDefinition];
+        if (!uiDefs.isEmpty()) {
+            UserInterfaceDefinition uiDef = uiDefs[0];
+            uiDef.ThemeId = [SELECT Id FROM UIX.Theme WHERE MasterLabel = 'Custom Green Theme' LIMIT 1].Id;
+            update uiDef;
+            System.debug('Custom theme applied successfully.');
+        } else {
+            System.debug('No user interface definition found.');
+        }
+    }
+}
